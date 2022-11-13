@@ -4,13 +4,15 @@ import { Link, NavLink } from 'react-router-dom';
 const Navbar = () => {
     const menuItems = <>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/appointment">Appointment</Link></li>
         <li><Link to="/about">About</Link></li>
+        <li><Link to="/appointment">Appointment</Link></li>
+        <li><Link to="/reviews">Reviews</Link></li>
+        <li><Link to="/contact">Contact Us</Link></li>
         <li><Link to="/login">Login</Link></li>
     </>
     return (
         <nav>
-            <div className="navbar bg-base-100 flex justify-between">
+            <div className="navbar bg-base-100 flex lg:justify-evenly">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -20,7 +22,7 @@ const Navbar = () => {
                             {menuItems}
                         </ul>
                     </div>
-                    <NavLink to="/" className="btn btn-ghost normal-case text-xl">Doctors Portal</NavLink>
+                    <NavLink to="/" className="btn rounded-none btn-ghost normal-case text-xl">Doctors Portal</NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal p-0">

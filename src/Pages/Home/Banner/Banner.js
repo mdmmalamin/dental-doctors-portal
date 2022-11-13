@@ -6,9 +6,9 @@ import InfoCards from '../InfoCards/InfoCards';
 
 const Banner = () => {
     return (
-        <header className='bg-center bg-cover bg-no-repeat mt-10 lg:pt-48' style={{backgroundImage: `url(${bg})`}}>
+        <header className='bg-contain bg-no-repeat mt-10 lg:pt-48' style={{backgroundImage: `url(${bg})`}}>
             <div className="hero">
-                <div className="hero-content flex-col lg:flex-row-reverse">
+                <div className="hero-content flex-col lg:flex-row-reverse px-0 gap-6">
                     <img src={chair} className="rounded-lg lg:w-1/2 shadow-2xl" alt="Banner" />
                     <div>
                     <h1 className="text-5xl font-bold">Your New Smile Starts Here</h1>
