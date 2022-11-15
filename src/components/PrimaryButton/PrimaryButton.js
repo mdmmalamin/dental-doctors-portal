@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PrimaryButton = ({children}) => {
+const PrimaryButton = ({ children }) => {
     return (
         <button className="btn 
         btn-primary 
@@ -8,7 +8,7 @@ const PrimaryButton = ({children}) => {
         from-secondary to-primary 
         text-white"
         >
-            {children}
+            { children }
         </button>
     );
 };

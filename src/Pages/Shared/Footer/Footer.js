@@ -5,7 +5,7 @@ import footer from '../../../assets/images/footer.png';
 const Footer = () => {
     return (
         <footer className='pt-20 bg-no-repeat' style={{background: `url(${footer})`, backgroundSize: 'cover'}}>
-            <section className="footer justify-around pb-24">
+            <section className="footer px-8 md:px-0 md:justify-around pb-24">
                 <div>
                     <span className="footer-title">SERVICES</span> 
                     <Link to='/' className="link link-hover">Emergency Checkup</Link>
