@@ -1,13 +1,64 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const { register, formState: {errors}, handleSubmit } = useForm();
+    const { createUser, updateUser } = useContext(AuthContext);
+    const [ signUpError, setSignUpError ] = useState('');
+    const [ createdUserEmail, setCreatedUserEmail ] = useState('');
+    const [ token ] = useToken(createdUserEmail);
+    const navigate = useNavigate();
+
+    if(token){
+        navigate('/');
+    }
 
     const handleSignUp = data => {
         console.log(data);
+        setSignUpError('');
+        createUser(data.email, data.password)
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+
+            toast.success('User Create Successfully');
+
+            const userInfo = {
+                displayName: data.name
+            }
+            updateUser(userInfo)
+            .then( () => {
+                saveUser(data.name, data.email);
+            })
+            .catch(err => console.error(err))
+        })
+        .catch(err => {
+            console.error(err);
+            setSignUpError('This email already in use');
+        })
     }
+
+    const saveUser = (name, email) => {
+        const user = {name, email};
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+            setCreatedUserEmail(email);
+        })
+    }
+
+
+
     return (
         <section className='h-[80vh] md:w-1/2 mx-auto flex justify-center items-center'>
             <div className='shadow-md rounded-xl p-7 w-96'>
@@ -45,7 +96,7 @@ const SignUp = () => {
                             {...register("password", {
                                 required: "Password is required!", 
                                 minLength: { value: 8, message: "Password must be 8 characters or longer!" }, 
-                                maxLength: { value: 17, message: "Password maximum 12 characters!" },
+                                maxLength: { value: 20, message: "Password maximum 20 characters!" },
                                 pattern: {value: /(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}/, message: "Password must be strong!"}
                             })} 
                             className="input input-bordered w-full" />
@@ -53,6 +104,7 @@ const SignUp = () => {
                     </div>
 
                     <input className='btn btn-accent w-full' value="SIGN UP" type="submit" />
+                    { signUpError && <p className='text-red-600 text-center'>{signUpError}</p>}
                 </form>
                 <p className='text-xs mt-2.5 text-center'>Already have an account? <Link to='/login' className='text-secondary'>Login now</Link></p>
                 <div className="divider mt-4 mb-6">OR</div>
