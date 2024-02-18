@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../../components/PrimaryButton/Loading/Loading';
+import Loading from '../../../components/Loading/Loading';
 
 const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -14,14 +14,15 @@ const AddDoctor = () => {
     const { data: specialties, isLoading } = useQuery({
         queryKey: ['specialty'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/appointmentSpecialty')
+            const res = await fetch('https://doctors-portal-server-kappa-sooty.vercel.app/appointmentSpecialty')
             const data = await res.json();
             return data;
         }
     });
 
     const handleAddDoctor = data => {
-        // console.log(data.img[0]);
+        console.log(data);
+        console.log(data.image);
         const img = data.image[0];
         const formData = new FormData();
         formData.append('image', img);
@@ -44,7 +45,7 @@ const AddDoctor = () => {
                 }
                 
                 // save doctor info to the database
-                fetch('http://localhost:5000/doctors',{
+                fetch('https://doctors-portal-server-kappa-sooty.vercel.app/doctors',{
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',
