@@ -14,16 +14,16 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     if(token){
-        navigate('/');
+        navigate('/appointment');
     }
 
     const handleSignUp = data => {
-        console.log(data);
+        console.log('handleSignUp:', data);
         setSignUpError('');
-        createUser(data.email, data.password)
+        createUser(data.email, data.password) // To AuthProvider
         .then(result => {
             const user = result.user;
-            console.log(user);
+            console.log('user:',user);
 
             toast.success('User Create Successfully');
 
@@ -42,8 +42,8 @@ const SignUp = () => {
         })
     }
 
-    const saveUser = (name, email) => {
-        const user = {name, email};
+    const saveUser = (name, email, tel) => {
+        const user = {name, email, tel};
         fetch('https://doctors-portal-server-kappa-sooty.vercel.app/users', {
             method: 'POST',
             headers: {
@@ -66,44 +66,64 @@ const SignUp = () => {
                 <form onSubmit={handleSubmit(handleSignUp)}>
 
                     {/* Name */}
-                    <div className="form-control w-full max-w-xs">
+                    <div className="form-control w-full max-w-xs my-2">
                         <label className="label p-1">
                             <span className="label-text">Name</span>
                         </label>
                         <input type="text" 
+                            placeholder="Full Name"
                             {...register("name", {required: "Name is required!"})} 
                             className="input input-bordered w-full" />
-                        {errors.name && <p role="alert" className='text-red-600 text-sm'>{errors.name?.message}</p>}
+                        {errors.name && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.name?.message}</p>}
                     </div>
 
                     {/* Email */}
-                    <div className="form-control w-full max-w-xs">
+                    <div className="form-control w-full max-w-xs my-1">
                         <label className="label p-1">
                             <span className="label-text">Email</span>
                         </label>
                         <input type="email" 
+                            placeholder="Email"
                             {...register("email", {required: "Email Address is required!"})} 
                             className="input input-bordered w-full" />
-                        {errors.email && <p role="alert" className='text-red-600 text-sm'>{errors.email?.message}</p>}
+                        {errors.email && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.email?.message}</p>}
+                    </div>
+
+                    {/* Phone Number */}
+                    <div className="form-control w-full max-w-xs my-1">
+                        <label className="label p-1">
+                            <span className="label-text">Phone Number</span>
+                        </label>
+                        <input type="tel" 
+                            placeholder="Phone Number" 
+                            {...register("tel", {
+                                required: "Phone Number is required!", 
+                                minLength: { value: 11, message: "Phone Number must be required!" }, 
+                                maxLength: { value: 11, message: "Phone Number must be required!" },
+                            })} 
+                            className="input input-bordered w-full" />
+                        {errors.tel && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.tel?.message}</p>}
                     </div>
 
                     {/* Password */}
-                    <div className="form-control w-full max-w-xs mt-2.5 mb-5">
+                    <div className="form-control w-full max-w-xs my-1">
                         <label className="label p-1">
                             <span className="label-text">Password</span>
                         </label>
                         <input type="password" 
+                            placeholder="Password"
                             {...register("password", {
                                 required: "Password is required!", 
                                 minLength: { value: 8, message: "Password must be 8 characters or longer!" }, 
                                 maxLength: { value: 20, message: "Password maximum 20 characters!" },
-                                pattern: {value: /(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}/, message: "Password must be strong!"}
+                                pattern: {value: /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}/, message: "Password must be used at least a Capital letter & Number!"}
+                                // pattern: {value: /(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}/, message: "Password must be strong!"}
                             })} 
                             className="input input-bordered w-full" />
-                        {errors.password && <p role="alert" className='text-red-600 text-sm'>{errors.password?.message}</p>}
+                        {errors.password && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.password?.message}</p>}
                     </div>
 
-                    <input className='btn btn-accent w-full' value="SIGN UP" type="submit" />
+                    <input className='btn btn-accent w-full my-5' value="SIGN UP" type="submit" />
                     { signUpError && <p className='text-red-600 text-center'>{signUpError}</p>}
                 </form>
                 <p className='text-xs mt-2.5 text-center'>Already have an account? <Link to='/login' className='text-secondary'>Login now</Link></p>
