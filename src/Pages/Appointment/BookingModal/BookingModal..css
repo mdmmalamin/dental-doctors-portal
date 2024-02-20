@@ -1,0 +1,3 @@
+.otp-container{
+    @apply flex justify-around gap-2
+}
