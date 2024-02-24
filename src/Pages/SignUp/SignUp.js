@@ -72,7 +72,10 @@ const SignUp = () => {
                         </label>
                         <input type="text" 
                             placeholder="Full Name"
-                            {...register("name", {required: "Name is required!"})} 
+                            {...register("name", {
+                                required: "Name is required!",
+                                pattern: { value: /([a-zA-Z])\.?-?\D/, message: "Name not validate"},
+                        })} 
                             className="input input-bordered w-full" />
                         {errors.name && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.name?.message}</p>}
                     </div>
@@ -116,7 +119,7 @@ const SignUp = () => {
                                 required: "Password is required!", 
                                 minLength: { value: 8, message: "Password must be 8 characters or longer!" }, 
                                 maxLength: { value: 20, message: "Password maximum 20 characters!" },
-                                pattern: {value: /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}/, message: "Password must be used at least a Capital letter & Number!"}
+                                pattern: { value: /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}/, message: "Password must be used at least a Capital letter & Number!"}
                                 // pattern: {value: /(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}/, message: "Password must be strong!"}
                             })} 
                             className="input input-bordered w-full" />
