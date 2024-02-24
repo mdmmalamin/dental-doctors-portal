@@ -32,7 +32,7 @@ const SignUp = () => {
             }
             updateUser(userInfo)
             .then( () => {
-                saveUser(data.name, data.email);
+                saveUser(data.name, data.email, data.phoneNumber);
             })
             .catch(err => console.error(err))
         })
@@ -42,8 +42,8 @@ const SignUp = () => {
         })
     }
 
-    const saveUser = (name, email, tel) => {
-        const user = {name, email, tel};
+    const saveUser = (name, email, phoneNumber) => {
+        const user = {name, email, phoneNumber};
         fetch('https://doctors-portal-server-kappa-sooty.vercel.app/users', {
             method: 'POST',
             headers: {
@@ -74,7 +74,7 @@ const SignUp = () => {
                             placeholder="Full Name"
                             {...register("name", {
                                 required: "Name is required!",
-                                pattern: { value: /([a-zA-Z])\.?-?\D/, message: "Name not validate"},
+                                pattern: { value: /^[a-zA-Z\- & .]+$/g, message: "Name not validate"},
                         })} 
                             className="input input-bordered w-full" />
                         {errors.name && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.name?.message}</p>}
@@ -99,13 +99,13 @@ const SignUp = () => {
                         </label>
                         <input type="tel" 
                             placeholder="Phone Number" 
-                            {...register("tel", {
+                            {...register("phoneNumber", {
                                 required: "Phone Number is required!", 
                                 minLength: { value: 11, message: "Phone Number must be required!" }, 
                                 maxLength: { value: 11, message: "Phone Number must be required!" },
                             })} 
                             className="input input-bordered w-full" />
-                        {errors.tel && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.tel?.message}</p>}
+                        {errors.phoneNumber && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.phoneNumber?.message}</p>}
                     </div>
 
                     {/* Password */}
@@ -119,7 +119,7 @@ const SignUp = () => {
                                 required: "Password is required!", 
                                 minLength: { value: 8, message: "Password must be 8 characters or longer!" }, 
                                 maxLength: { value: 20, message: "Password maximum 20 characters!" },
-                                pattern: { value: /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}/, message: "Password must be used at least a Capital letter & Number!"}
+                                pattern: { value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gi, message: "Password must contain Letter & Number!"}
                                 // pattern: {value: /(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}/, message: "Password must be strong!"}
                             })} 
                             className="input input-bordered w-full" />
