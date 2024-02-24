@@ -73,9 +73,9 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
                                 >{slot}</option>)
                             }
                         </select>
-                        <input name='name' type="text" readOnly={user?.displayName} defaultValue={user?.displayName} placeholder="Your Name" className="input input-bordered w-full" />
-                        <input name='email' type="email" readOnly={user?.email} defaultValue={user?.email} placeholder="Email Address" className="input input-bordered w-full" />
-                        <input name='phone' type="Phone" readOnly={user?.phoneNumber} defaultValue={user?.phoneNumber} placeholder="Phone Number" className="input input-bordered w-full" />
+                        <input name='name' type="text" required pattern='^[a-zA-Z\- & .]+$' readOnly={user?.displayName} defaultValue={user?.displayName} placeholder="Your Name" className="input input-bordered w-full" />
+                        <input name='email' type="email" required readOnly={user?.email} defaultValue={user?.email} placeholder="Email Address" className="input input-bordered w-full" />
+                        <input name='phone' type="Phone" required readOnly={user?.phoneNumber} defaultValue={user?.phoneNumber} placeholder="Phone Number" className="input input-bordered w-full" />
                         <input type="submit" value="Submit" className='btn btn-accent w-full' />
                     </form>
                 </div>
