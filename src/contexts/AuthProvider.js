@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPhoneNumber, signOut, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, RecaptchaVerifier, signInWithPhoneNumber, signOut, updateProfile } from 'firebase/auth';
 import app from '../firebase/firebase.config';
+// import {  } from '@firebase/auth';
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
-    const [ user, setUser ] = useState(null);
+    const [ user, setUser ] = useState('');
     const [ loading, setLoading ] = useState(true);
 
 // SingUp
@@ -20,6 +21,11 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password);
     }
 // SignIn with Phone Number
+    const recaptcha = (styleId, obj) => {
+        setLoading(true);
+        return new RecaptchaVerifier(auth, styleId, obj);
+    }
+
     const signInPhone = (phone, recaptchaVerifier) => {
         setLoading(true);
         return signInWithPhoneNumber(auth, phone, recaptchaVerifier);
@@ -47,6 +53,7 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         createUser,
         signIn,
+        recaptcha,
         signInPhone,
         updateUser,
         user,
