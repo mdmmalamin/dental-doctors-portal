@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Loading from '../../../components/Loading/Loading';
 import BookingModal from '../BookingModal/BookingModal';
 import AppointmentOption from './AppointmentOption';
+import AppointmentModal from '../BookingModal/AppointmentModal';
 
 const AvailableAppointments = ({ selectedDate }) => {
     // const [ appointmentOptions, setAppointmentOptions ] = useState([]);
@@ -49,12 +50,18 @@ const AvailableAppointments = ({ selectedDate }) => {
                 }
             </div>
             {   treatment &&
-                <BookingModal
+                // <BookingModal
+                //     selectedDate={selectedDate}
+                //     treatment={treatment}
+                //     setTreatment={setTreatment}
+                //     refetch={refetch}
+                // ></BookingModal>
+                <AppointmentModal
                     selectedDate={selectedDate}
                     treatment={treatment}
                     setTreatment={setTreatment}
                     refetch={refetch}
-                ></BookingModal>
+                />
             }
         </section>
     );

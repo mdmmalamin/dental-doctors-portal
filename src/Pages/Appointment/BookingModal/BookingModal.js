@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import React, { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
@@ -11,6 +12,8 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     const { user } = useContext(AuthContext);
     // console.log(user);
     const today =format(new Date(), "PP");
+
+    const { register, formState: {errors}, handleSubmit } = useForm();
 
     // SignIn with Phone Number Start
     const { recaptcha, signInPhone } = useContext(AuthContext);
@@ -40,11 +43,11 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     const verifyOtp = async() => {
         await logger.confirm(otp);
     }
-
-
     // SignIn with Phone Number End
 
-    const handleBooking = event => {
+    const handleBooking = (event, data) => {
+        console.log('handleSignUp:', data);
+
         event.preventDefault();
         const form = event.target;
         const patient_name = form.name.value;
@@ -89,14 +92,24 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     }
 
     return (
-        <>defaultValue={user?.phoneNumber} 
+        <>
             <input type="checkbox" id="booking-modal" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box relative">
                     <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <h3 className="text-lg font-bold mb-12">{name}</h3>
-                    <form onSubmit={handleBooking} className='grid grid-cols-1 gap-3 md:gap-6'>
+                    <form onSubmit={handleSubmit(handleBooking)} className='grid grid-cols-1 gap-3 md:gap-6'>
                         <input type="text" disabled value={date} className="input input-bordered w-full" />
+                        {/* <div className="form-control w-full max-w-xs my-2">
+                            <input type="text" 
+                                placeholder="Full Name"
+                                {...register("name", {
+                                    required: "Name is required!",
+                                    pattern: { value: /^[a-zA-Z\- & .]+$/g, message: "Name not validate"},
+                            })} 
+                                className="input input-bordered w-full" />
+                            {errors.name && <p role="alert" className='text-red-600 text-sm mx-2 my-1'>{errors.name?.message}</p>}
+                        </div> */}
                         <select name="slot" className="select select-bordered w-full">
                             {
                                 slots.map((slot, idx) => <option
