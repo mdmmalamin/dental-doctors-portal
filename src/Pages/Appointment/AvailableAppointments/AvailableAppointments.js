@@ -2,13 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
 import Loading from '../../../components/Loading/Loading';
-import BookingModal from '../BookingModal/BookingModal';
+// import BookingModal from '../BookingModal/BookingModal';
 import AppointmentOption from './AppointmentOption';
 import AppointmentModal from '../BookingModal/AppointmentModal';
 
 const AvailableAppointments = ({ selectedDate }) => {
     // const [ appointmentOptions, setAppointmentOptions ] = useState([]);
     const [ treatment, setTreatment] = useState(null);
+    const [ doctor, setDoctor ] = useState(null);
 
     // const {data:appointmentOptions = [] } = useQuery({
     //     queryKey: ['appointmentOptions'],
@@ -20,11 +21,34 @@ const AvailableAppointments = ({ selectedDate }) => {
     const { data: appointmentOptions = [], refetch, isLoading } = useQuery({
         queryKey: ['appointmentOptions', date],
         queryFn: async() => {
-            const res = await fetch(`https://doctors-portal-server-kappa-sooty.vercel.app/v2/appointmentOptions?date=${date}`);
+            const res = await fetch(`https://doctors-portal-server-kappa-sooty.vercel.app/appointmentOptions?date=${date}`);
             const data = res.json();
+            console.log(data)
             return data;
         }
     });
+
+    const { data: doctors = [] } = useQuery({
+        queryKey: ['doctors', date],
+        queryFn: async() => {
+            try {
+                const res = await fetch(`https://doctors-portal-server-kappa-sooty.vercel.app/doctors`,
+                {
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
+                const data = res.json();
+                console.log(data)
+                return data;
+            }
+            catch(err) {
+                console.error(err);
+            }
+        }
+    });
+    
+
 
     if(isLoading){
         return <Loading></Loading>
@@ -61,6 +85,8 @@ const AvailableAppointments = ({ selectedDate }) => {
                     treatment={treatment}
                     setTreatment={setTreatment}
                     refetch={refetch}
+                    doctor={doctor}
+                    setDoctor={setDoctor}
                 />
             }
         </section>

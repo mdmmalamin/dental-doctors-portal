@@ -41,6 +41,7 @@ const AddDoctor = () => {
                     name: data.name,
                     email: data.email,
                     specialty: data.specialty,
+                    doctorFee: data.doctorFee,
                     img: imgData.data.url
                 }
                 
@@ -57,7 +58,7 @@ const AddDoctor = () => {
                 .then(result => {
                     console.log(result);
                     toast.success(`${data.name} is added successfully`);
-                    navigate('/dashboard/managedoctors');
+                    navigate('/dashboard/manage-doctors');
                 })
             }
         })
@@ -122,6 +123,23 @@ const AddDoctor = () => {
                             >{specialty.name}</option>)
                         }
                     </select>
+                </div>
+
+                {/* Doctor Fee */}
+                <div className="form-control w-full max-w-xs">
+                    <label className="label p-1">
+                        <span className="label-text">Doctor Fee</span>
+                    </label>
+                    <input type="number" 
+                        {...register("doctorFee", {required: "Doctor Fee is required!"})} 
+                        className="input input-bordered w-full spin-button-none" />
+                    {
+                        errors.doctorFee 
+                        && 
+                        <p role="alert" className='text-red-600 text-sm'>
+                            {errors.doctorFee?.message}
+                        </p>
+                    }
                 </div>
 
                 {/* img */}
