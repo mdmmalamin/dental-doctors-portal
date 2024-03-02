@@ -15,3 +15,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@layer components {
+  /* Chrome, Safari, Edge, Opera */
+  .spin-button-none::-webkit-outer-spin-button,
+  .spin-button-none::-webkit-inner-spin-button {
+    appearance: none;
+  }
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer utilities {
+  .otp-input {
+    @apply w-12 h-12 border-2 rounded bg-transparent outline-none text-center font-semibold text-xl border-accent focus:border-primary focus:text-neutral text-accent transition spin-button-none;
+  }
+}

@@ -57,11 +57,13 @@ const ManageDoctors = () => {
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
-                    <tr>
-                        <th></th>
+                    <tr className='uppercase'>
+                        <th>NO.</th>
                         <th>AVATAR</th>
                         <th>NAME</th>
                         <th>SPECIALTY</th>
+                        <th>Doctor Fee</th>
+                        <th>email</th>
                         <th>ACTION</th>
                     </tr>
                     </thead>
@@ -80,6 +82,8 @@ const ManageDoctors = () => {
                                     </th>
                                     <td>{doctor?.name}</td>
                                     <td>{doctor?.specialty}</td>
+                                    <td>{doctor?.doctorFee}{doctor.doctorFee ? " $" : <></>}</td>
+                                    <td>{doctor?.email}</td>
                                     <td>
                                         <label 
                                         onClick={() => setDeletingDoctor(doctor)}

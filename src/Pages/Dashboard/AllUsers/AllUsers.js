@@ -46,6 +46,7 @@ const AllUsers = () => {
                         <th></th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th>Admin</th>
                         <th>Delete</th>
                     </tr>
@@ -58,6 +59,7 @@ const AllUsers = () => {
                                     <th>{idx+1}</th>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
+                                    <td>{user.phoneNumber}</td>
                                     <td>
                                         {
                                             user?.role !== 'admin' 

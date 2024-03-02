@@ -2,6 +2,7 @@ import React from "react";
 import chair from "../../../assets/images/chair.png";
 import bg from "../../../assets/images/bg.png";
 import { DayPicker } from "react-day-picker";
+import PasswordGenerator from "../../../components/PasswordGenerator/PasswordGenerator";
 
 const AppointmentBanner = ({ selectedDate, setSelectedDate }) => {
   return (
@@ -18,7 +19,6 @@ const AppointmentBanner = ({ selectedDate, setSelectedDate }) => {
           />
           <div className="shadow-lg rounded-xl bg-white">
             <DayPicker
-              // disabled={new Date()}
               mode="single"
               selected={selectedDate}
               onSelect={setSelectedDate}
@@ -27,6 +27,7 @@ const AppointmentBanner = ({ selectedDate, setSelectedDate }) => {
           </div>
         </div>
       </div>
+      <PasswordGenerator></PasswordGenerator>
     </header>
   );
 };
